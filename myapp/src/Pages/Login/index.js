@@ -24,6 +24,7 @@ export default function Login() {
         setUser(updatableUser);
     }
 
+    //Sync 
     async function login(){
         setErrorMessage('');
 
