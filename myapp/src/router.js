@@ -1,28 +1,49 @@
-import react from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import react, { useEffect } from "react";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
-import Header from './Components/Header';
-import Home from './Pages/Home';
-import Login from './Pages/Login';
-import Signup from './Pages/Signup';
-import CobrarPagar from './Pages/CobrarPagar';
-import CompraRecarga from './Pages/CompraRecarga';
-import ForgotPassword from './Pages/Forgot';
+import Home from "./Pages/Home";
+import Login from "./Pages/Login";
+import Signup from "./Pages/Signup";
+import CobrarPagar from "./Pages/CobrarPagar";
+import CompraRecarga from "./Pages/CompraRecarga";
+import ForgotPassword from "./Pages/Forgot";
+import { useSelector } from "react-redux";
 
-const Router = () => {
+import React from "react";
+
+export default function Router() {
+  const currentUser = useSelector((state) => state.user);
+  const PrivateRoute = ({ children, ...rest }) => {
     return (
-        <BrowserRouter>
-            <Header/>
-            <Switch>
-                <Route exact path='/' component={Home} />
-                <Route path='/CompraRecarga' component={CompraRecarga} />
-                <Route path='/CobrarPagar' component={CobrarPagar} />
-                <Route path='/Login' component={Login} />
-                <Route path='/Signup' component={Signup} />
-                <Route path='/ForgotPassword' component={ForgotPassword} />
-            </Switch>
-        </BrowserRouter>
+      <Route
+        {...rest}
+        render={({ location }) => {
+          return currentUser.lenght > 0 ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/Login",
+                state: { from: location },
+              }}
+            />
+          );
+        }}
+      />
     );
-}
+  };
 
-export default Router;
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={Login} />
+        <PrivateRoute path="/Home" component={Home} />
+        <PrivateRoute path="/CompraRecarga" component={CompraRecarga} />
+        <PrivateRoute path="/CobrarPagar" component={CobrarPagar} />
+        <Route path="/Login" component={Login} />
+        <Route path="/Signup" component={Signup} />
+        <Route path="/ForgotPassword" component={ForgotPassword} />
+      </Switch>
+    </BrowserRouter>
+  );
+}

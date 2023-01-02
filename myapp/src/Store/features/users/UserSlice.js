@@ -1,14 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSerializableStateInvariantMiddleware, createSlice } from "@reduxjs/toolkit";
 
 const userSlice = createSlice({
     name: 'user',
     initialState: [],
     reducers: {
         userAdded(state, action) {
-            state = action.payload;
+            state = [action.payload];
+            return state;
         },
         userToggled(state, action){
-            state = {};
+            return [];
         }
     }
 });

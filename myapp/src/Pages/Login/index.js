@@ -24,6 +24,10 @@ export default function Login() {
         setUser(updatableUser);
     }
 
+    useEffect(() => {
+        dispatch(userToggled());
+    }, [])
+
     //Sync 
     async function login(){
         setErrorMessage('');
@@ -31,7 +35,7 @@ export default function Login() {
         if(user.email.length > 0 && user.password.length > 0){
             await firebaseAuth.signInWithEmailAndPassword(getAuth(), user.email, user.password)
                 .then((userCredencials) => {
-                    let user = {
+                    const user = {
                         accessToken: userCredencials.user.accessToken,
                         email: userCredencials.user.email,
                         id: userCredencials.user.uid,
@@ -40,7 +44,8 @@ export default function Login() {
                         photoUrl : userCredencials.user.photoURL
                     }
                     dispatch(userAdded(user));
-                    history.push('/');
+                    localStorage.setItem('users', JSON.stringify(user));
+                    history.push('/Home');
                 })
                 .catch(error => {
                     const errorCode = error.code;

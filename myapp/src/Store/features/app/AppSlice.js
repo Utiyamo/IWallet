@@ -2,15 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const appSlice = createSlice({
     name: 'app',
-    initialState: { app: {}},
+    initialState: [],
     reducers: {
         appAdded(state, action){
-            state = {
-                app: action.payload
-            };
+            console.log('app => ', action.payload);
+            return [action.payload];
         },
         appToggled(state, action){
-            state = { app: {} };
+            return [];
         }
     }
 });
