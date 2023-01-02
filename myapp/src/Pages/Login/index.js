@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { userAdded, userToggled } from '../../Store/features/users/UserSlice';
-
-import LoginService from '../../Services/LoginService';
+import * as firebaseAuth from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 
 export default function Login() {
     const [errorMessage, setErrorMessage] = useState('');
@@ -12,6 +12,7 @@ export default function Login() {
         password: ''
     });
     const userFirebase = useSelector(state => state.user);
+    const appFirebase = useSelector(state => state.app);
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -27,13 +28,24 @@ export default function Login() {
         setErrorMessage('');
 
         if(user.email.length > 0 && user.password.length > 0){
-            console.log(user);
-            let userFirebase = await LoginService.Login(user.email, user.password);
-            console.log(userFirebase);
-            if(userFirebase.isValid){
-                dispatch(userAdded(userFirebase));
-                window.location.href = `.../`;
-            }
+            await firebaseAuth.signInWithEmailAndPassword(getAuth(), user.email, user.password)
+                .then((userCredencials) => {
+                    let user = {
+                        accessToken: userCredencials.user.accessToken,
+                        email: userCredencials.user.email,
+                        id: userCredencials.user.uid,
+                        createAt: userCredencials.user.metadata.creationTime,
+                        lastLogin: userCredencials.user.metadata.lastSignInTime,
+                        photoUrl : userCredencials.user.photoURL
+                    }
+                    dispatch(userAdded(user));
+                    history.push('/');
+                })
+                .catch(error => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErrorMessage(`${errorCode} / ${errorMessage}`);
+                })
         }
         else
             setErrorMessage('Email or Password are invalids');

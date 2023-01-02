@@ -5,10 +5,10 @@ const userSlice = createSlice({
     initialState: [],
     reducers: {
         userAdded(state, action) {
-            state.push(action.payload);
+            state = action.payload;
         },
         userToggled(state, action){
-            const user = state.find(user => user === action.payload);
+            state = {};
         }
     }
 });
