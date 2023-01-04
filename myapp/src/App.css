@@ -156,6 +156,12 @@ body {
 
 .form-control-label {
     margin-bottom: 7px;
+    font-size: 21px;
+}
+
+.form-control:focus{
+  box-shadow: none;
+  border-color: #2ecc71;
 }
 
 input,
@@ -222,4 +228,24 @@ button:focus {
 
 .dropdown-content a:hover {
   background-color: #ddd;
+}
+
+.profile-button {
+  background: #2ecc71;
+  box-shadow: none;
+  border: none;
+}
+
+.profile-button:hover{
+  background: #2ecc71;
+}
+
+.profile-button:focus{
+  background: #2ecc71;
+  box-shadow: none;
+}
+
+.profile-button:active{
+  background: #2ecc71;
+  box-shadow: none;
 }

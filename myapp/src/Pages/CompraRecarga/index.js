@@ -1,10 +1,12 @@
+import React from "react";
 
-const CompraRecarga = () => {
-    return(
-        <div>
-            <h1>Compra / Recarga</h1>
-        </div>
-    )
+import Header from "../../Components/Header";
+
+export default function CompraRecarga() {
+  return (
+    <div>
+      <Header />
+      <h1>Compra / Recarga</h1>
+    </div>
+  );
 }
-
-export default CompraRecarga;

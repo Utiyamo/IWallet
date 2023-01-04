@@ -7,6 +7,7 @@ import Signup from "./Pages/Signup";
 import CobrarPagar from "./Pages/CobrarPagar";
 import CompraRecarga from "./Pages/CompraRecarga";
 import ForgotPassword from "./Pages/Forgot";
+import Profile from './Pages/Profile';
 import { useSelector } from "react-redux";
 
 import React from "react";
@@ -40,6 +41,7 @@ export default function Router() {
         <PrivateRoute path="/Home" component={Home} />
         <PrivateRoute path="/CompraRecarga" component={CompraRecarga} />
         <PrivateRoute path="/CobrarPagar" component={CobrarPagar} />
+        <PrivateRoute path='/Profile' component={Profile} />
         <Route path="/Login" component={Login} />
         <Route path="/Signup" component={Signup} />
         <Route path="/ForgotPassword" component={ForgotPassword} />
